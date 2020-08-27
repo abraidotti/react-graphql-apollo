@@ -4,6 +4,7 @@ import { Query } from "react-apollo";
 
 import RepositoryList from "../Repository";
 import Loading from "../Loading";
+import ErrorMessage from '../Error';
 
 const GET_REPOSITORIES_OF_CURRENT_USER = gql`
   {
@@ -39,15 +40,17 @@ const GET_REPOSITORIES_OF_CURRENT_USER = gql`
 
 const Profile = () => (
   <Query query={GET_REPOSITORIES_OF_CURRENT_USER}>
-    {({ data, loading }) => {
+    {({ data, loading, error }) => {
+      if (error) {
+        return <ErrorMessage error={error} />;
+      }
+
       if (loading) {
         return <Loading />;
       }
 
       if (data) {
-        console.log("data: ", data);
         const { viewer } = data;
-        console.log("viewer: ", viewer);
         return <RepositoryList repositories={viewer.repositories} />;
       }
     }}
