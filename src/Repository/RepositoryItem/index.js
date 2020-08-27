@@ -1,24 +1,24 @@
-import React from 'react';
-import { Mutation } from 'react-apollo';
+import React from "react";
+import { Mutation } from "react-apollo";
 
-import REPOSITORY_FRAGMENT from '../fragments';
-import Link from '../../Link';
-import Button from '../../Button';
+import REPOSITORY_FRAGMENT from "../fragments";
+import Link from "../../Link";
+import Button from "../../Button";
 
-import '../style.css';
+import "../style.css";
 
 import {
   STAR_REPOSITORY,
   UNSTAR_REPOSITORY,
   WATCH_REPOSITORY,
-} from '../mutations';
+} from "../mutations";
 
 const VIEWER_SUBSCRIPTIONS = {
-  SUBSCRIBED: 'SUBSCRIBED',
-  UNSUBSCRIBED: 'UNSUBSCRIBED',
+  SUBSCRIBED: "SUBSCRIBED",
+  UNSUBSCRIBED: "UNSUBSCRIBED",
 };
 
-const isWatch = viewerSubscription =>
+const isWatch = (viewerSubscription) =>
   viewerSubscription === VIEWER_SUBSCRIPTIONS.SUBSCRIBED;
 
 const updateWatch = (
@@ -29,7 +29,7 @@ const updateWatch = (
         subscribable: { id, viewerSubscription },
       },
     },
-  },
+  }
 ) => {
   const repository = client.readFragment({
     id: `Repository:${id}`,
@@ -63,7 +63,7 @@ const updateAddStar = (
         starrable: { id, viewerHasStarred },
       },
     },
-  },
+  }
 ) =>
   client.writeFragment({
     id: `Repository:${id}`,
@@ -79,7 +79,7 @@ const updateRemoveStar = (
         starrable: { id, viewerHasStarred },
       },
     },
-  },
+  }
 ) => {
   client.writeFragment({
     id: `Repository:${id}`,
@@ -135,9 +135,9 @@ const RepositoryItem = ({
           }}
           optimisticResponse={{
             updateSubscription: {
-              __typename: 'Mutation',
+              __typename: "Mutation",
               subscribable: {
-                __typename: 'Repository',
+                __typename: "Repository",
                 id,
                 viewerSubscription: isWatch(viewerSubscription)
                   ? VIEWER_SUBSCRIPTIONS.UNSUBSCRIBED
@@ -153,8 +153,8 @@ const RepositoryItem = ({
               data-test-id="updateSubscription"
               onClick={updateSubscription}
             >
-              {watchers.totalCount}{' '}
-              {isWatch(viewerSubscription) ? 'Unwatch' : 'Watch'}
+              {watchers.totalCount}{" "}
+              {isWatch(viewerSubscription) ? "Unwatch" : "Watch"}
             </Button>
           )}
         </Mutation>
@@ -165,9 +165,9 @@ const RepositoryItem = ({
             variables={{ id }}
             optimisticResponse={{
               addStar: {
-                __typename: 'Mutation',
+                __typename: "Mutation",
                 starrable: {
-                  __typename: 'Repository',
+                  __typename: "Repository",
                   id,
                   viewerHasStarred: !viewerHasStarred,
                 },
@@ -177,7 +177,7 @@ const RepositoryItem = ({
           >
             {(addStar, { data, loading, error }) => (
               <Button
-                className={'RepositoryItem-title-action'}
+                className={"RepositoryItem-title-action"}
                 onClick={addStar}
               >
                 {stargazers.totalCount} Star
@@ -190,9 +190,9 @@ const RepositoryItem = ({
             variables={{ id }}
             optimisticResponse={{
               removeStar: {
-                __typename: 'Mutation',
+                __typename: "Mutation",
                 starrable: {
-                  __typename: 'Repository',
+                  __typename: "Repository",
                   id,
                   viewerHasStarred: !viewerHasStarred,
                 },
@@ -220,9 +220,7 @@ const RepositoryItem = ({
       />
       <div className="RepositoryItem-description-details">
         <div>
-          {primaryLanguage && (
-            <span>Language: {primaryLanguage.name}</span>
-          )}
+          {primaryLanguage && <span>Language: {primaryLanguage.name}</span>}
         </div>
         <div>
           {owner && (
