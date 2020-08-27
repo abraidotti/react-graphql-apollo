@@ -1,5 +1,6 @@
 import React from "react";
 import gql from "graphql-tag";
+import { graphql } from 'react-apollo';
 import { Query } from "react-apollo";
 
 import RepositoryList from "../Repository";
@@ -57,4 +58,4 @@ const Profile = () => (
   </Query>
 );
 
-export default Profile;
+export default graphql(GET_REPOSITORIES_OF_CURRENT_USER)(Profile);
